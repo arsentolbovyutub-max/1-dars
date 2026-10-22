@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT: Sehr emas, Muhandislik | Interaktiv Dars</title>
+    <style>
+
+        :root {
+            --bg-dark: #070913;
+            --card-bg: rgba(18, 24, 43, 0.75);
+            --neon-blue: #00f3ff;
+            --neon-purple: #b500ff;
+            --neon-pink: #ff007f;
+            --neon-green: #00ff88;
+            --neon-yellow: #ffe600;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        html, body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden !important; /* Butunlay skrollni taqiqlash */
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            position: relative;
+        }
+
+        /* Dynamic Cyber Animated Grid */
+        .cyber-grid {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Glowing background spots */
+        .glow-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .orb-1 { top: -50px; left: -50px; background: var(--neon-blue); }
+        .orb-2 { bottom: -50px; right: -50px; background: var(--neon-purple); }
+
+        /* FIXED BOTTOM NAVIGATION */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 1000;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(7, 9, 19, 0.95);
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+
+        /* SLIDES WRAPPER - Skroll bo'lmasligi uchun cheklov */
+        .slides-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 70px);
+            overflow: hidden !important; /* Ichida ham skroll mutloq bo'lmaydi */
+            z-index: 10;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            opacity: 1;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1.slide-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        p.slide-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        /* Slide 1 Elements */
+        .hero-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: 750px;
+            width: 100%;
+        }
+
+        .phone-icon {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Slide 2: Problem - Solution Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 18px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--neon-purple);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(181, 0, 255, 0.25);
+        }
+
+        .card-icon { font-size: 2.3rem; margin-bottom: 5px; }
+        .card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 6px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+        .card .solution {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255,255,255,0.15);
+            color: var(--neon-blue);
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        /* Slide 3: Interactive Robot Simulator */
+        .robot-sim-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .commands-panel, .queue-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cmd-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            text-align: left;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cmd-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            font-weight: bold;
+        }
+
+        .queue-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed var(--neon-purple);
+            border-radius: 8px;
+            min-height: 150px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .queue-item {
+            background: rgba(181, 0, 255, 0.2);
+            border: 1px solid var(--neon-purple);
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .sim-status {
+            margin-top: 6px;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.88rem;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+        }
+
+        /* Slide 4: Cyber Highway Roadmap */
+        .highway-container {
+            width: 100%;
+            position: relative;
+            padding: 30px 0;
+            margin-top: 10px;
+        }
+
+        .highway-track {
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-green));
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 15px var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        .nodes-wrapper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .h-node {
+            background: var(--bg-dark);
+            border: 3px solid var(--neon-blue);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,243,255,0.2);
+        }
+
+        .h-node:hover {
+            transform: scale(1.1);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+
+        .h-node span { font-size: 1.5rem; }
+        .h-node h4 { font-size: 0.78rem; color: #fff; margin-top: 3px; text-align: center; }
+
+        .node-details-box {
+            margin-top: 20px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            min-height: 80px;
+            text-align: center;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        /* Slide 5: Quiz Arena */
+        .quiz-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            transition: border-color 0.3s ease;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .q-opt {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .q-opt:hover, .q-opt.selected {
+            border-color: var(--neon-purple);
+            background: rgba(181, 0, 255, 0.1);
+            box-shadow: 0 0 10px rgba(181, 0, 255, 0.2);
+            color: #fff;
+        }
+
+        .q-opt.correct {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.15);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            color: #fff;
+            font-weight: bold;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .q-opt.incorrect {
+            border-color: var(--neon-pink);
+            background: rgba(255, 0, 127, 0.18);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+            color: #fff;
+            animation: shakeOpt 0.4s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shakeOpt {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .quiz-card.shake-card {
+            animation: shakeCard 0.4s ease-in-out;
+            border-color: var(--neon-pink);
+        }
+
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .quiz-card.correct-card {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.25);
+        }
+
+        .quiz-feedback {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        /* Bottom Controls Buttons */
+        .btn-action {
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-action:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .slide-indicator {
+            font-size: 1rem;
+            color: var(--neon-blue);
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-run {
+            background: var(--neon-green);
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 6px;
+            font-size: 0.85rem;
+        }
+        .btn-reset {
+            background: var(--neon-pink);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 6px;
+            margin-left: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* === CELEBRATION / FEEDBACK EFFECTS === */
+
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            z-index: 9999;
+            pointer-events: none;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0.2; }
+        }
+
+        .firework-particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            animation: fireworkBurst 0.9s ease-out forwards;
+        }
+
+        @keyframes fireworkBurst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--fx), var(--fy)) scale(0.2); opacity: 0; }
+        }
+
+        .screen-flash-red {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 0, 60, 0.35);
+            z-index: 9998;
+            pointer-events: none;
+            animation: flashRed 0.6s ease-out forwards;
+        }
+
+        @keyframes flashRed {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .screen-flash-green {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 255, 136, 0.18);
+            z-index: 9997;
+            pointer-events: none;
+            animation: flashGreen 0.6s ease-out forwards;
+        }
+
+        @keyframes flashGreen {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* ========================================================= */
+        /* RESPONSIVE CSS (UMUMAN SKROLL BO'LMASLIGI UCHUN MOSLASH)   */
+        /* ========================================================= */
+
+        @media (max-width: 850px) {
+            h1.slide-title { font-size: 1.6rem; }
+            p.slide-subtitle { font-size: 0.9rem; margin-bottom: 12px; }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .card { padding: 10px; }
+            .card-icon { font-size: 1.6rem; margin-bottom: 2px; }
+            .card h3 { font-size: 1rem; margin-bottom: 2px; }
+            .card p { font-size: 0.8rem; }
+            .card .solution { margin-top: 5px; padding-top: 5px; font-size: 0.85rem; }
+
+            .robot-sim-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 12px;
+            }
+            .queue-box { min-height: 80px; }
+            .cmd-btn { padding: 6px 10px; font-size: 0.8rem; }
+
+            .highway-container { padding: 10px 0; }
+            .h-node { width: 65px; height: 65px; border-width: 2px; }
+            .h-node span { font-size: 1.1rem; }
+            .h-node h4 { font-size: 0.65rem; }
+            .node-details-box { padding: 10px; min-height: 60px; margin-top: 10px; }
+            .node-details-box h3 { font-size: 1rem !important; }
+            .node-details-box p { font-size: 0.85rem !important; }
+
+            .quiz-card { padding: 12px; }
+            .quiz-question { font-size: 0.95rem; margin-bottom: 8px; }
+            .q-opt { padding: 8px 10px; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-nav { padding: 0 10px; height: 60px; }
+            .slides-wrapper { height: calc(100vh - 60px); padding: 10px; }
+            .btn-action { padding: 6px 10px; font-size: 0.75rem; letter-spacing: 0; }
+            .slide-indicator { font-size: 0.75rem; }
+            
+            h1.slide-title { font-size: 1.3rem; }
+            p.slide-subtitle { font-size: 0.8rem; margin-bottom: 10px; }
+            
+            .hero-box { padding: 12px; }
+            .phone-icon { font-size: 2.5rem; margin: 5px 0; }
+            .hero-box h2 { font-size: 1.1rem !important; margin-bottom: 8px !important; }
+            .hero-box p { font-size: 0.85rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- MAIN SLIDES CONTAINER -->
+    <div class="slides-wrapper">
+
+        <!-- SLIDE 1: Hook -->
+        <div class="slide active" id="s1">
+            <h1 class="slide-title">Cho'ntagingizdagi Raqamli Olam</h1>
+            <p class="slide-subtitle">Bugun biz ijtimoiy tarmoqda shunchaki o'tirishni emas, ularning ortida qanday buyuk muhandislik yotganini kashf qilamiz.</p>
+            
+            <div class="hero-box">
+                <div class="phone-icon">📱</div>
+                <h2 style="font-size: 1.4rem; color: #fff; margin-bottom: 10px;">Darsimizning Birinchi Savoli:</h2>
+                <p style="font-size: 1.1rem; color: var(--neon-blue); line-height: 1.5;">
+                    "Har kuni ishlatadigan telefoningizdagi eng sevimli ilovangiz qaysi va u hayotingizdagi qaysi qiyinchilikni osonlashtiradi?"
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Problem Solving -->
+        <div class="slide" id="s2">
+            <h1 class="slide-title">IT - Bu Sehr Emas, Muhandislik</h1>
+            <p class="slide-subtitle">Dasturchi shunchaki kod yozuvchi emas. Dasturchi - bu jamiyatdagi muammolarni texnik yo'l bilan hal qiluvchi zamonaviy muhandis.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🚕</div>
+                    <h3>Muammo #1</h3>
+                    <p>Yomg'irda ko'chada taksi kutish, haydovchi bilan narx tortishish va vaqt yo'qotish.</p>
+                    <div class="solution">IT Yechim: Yandex Go / Uber</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏦</div>
+                    <h3>Muammo #2</h3>
+                    <p>Pul o'tkazish uchun bankka borish va u yerda soatlab navbatda turish.</p>
+                    <div class="solution">IT Yechim: Click / Payme / Uzum</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✉️</div>
+                    <h3>Muammo #3</h3>
+                    <p>Uzoq shahardagi yaqinlarga xat yuborish va javobini haftalab kutish.</p>
+                    <div class="solution">IT Yechim: Telegram / WhatsApp</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Interactive Robot -->
+        <div class="slide" id="s3">
+            <h1 class="slide-title">Simulyatsiya: Robotni Boshqar</h1>
+            <p class="slide-subtitle">Kompyuter - juda tez ishlaydigan, ammo o'ta "ahmoq" qurilma. U faqat aniq ketma-ketlikdagi buyruqlarni (Algoritm) tushunadi.</p>
+
+            <div class="robot-sim-container">
+                <div class="commands-panel">
+                    <h3 style="color: var(--neon-blue); font-size: 1rem;">Buyruqlar Ro'yxati:</h3>
+                    <button class="cmd-btn" onclick="addCmd('1. Stuldan turish')"><span>🪑</span> 1. Stuldan turish</button>
+                    <button class="cmd-btn" onclick="addCmd('2. Stol yoniga borish')"><span>🚶</span> 2. Stol yoniga borish</button>
+                    <button class="cmd-btn" onclick="addCmd('3. Qo\'lni kitobga uzatish')"><span>✋</span> 3. Qo'lni kitobga uzatish</button>
+                    <button class="cmd-btn" onclick="addCmd('4. Kitobni mahkam ushlash')"><span>📖</span> 4. Kitobni mahkam ushlash</button>
+                    <button class="cmd-btn" onclick="addCmd('5. Eshik tomon yurish')"><span>🚪</span> 5. Eshik tomon yurish</button>
+                </div>
+
+                <div class="queue-panel">
+                    <h3 style="color: var(--neon-purple); font-size: 1rem;">Robot Algoritmi (Ketma-ketlik):</h3>
+                    <div class="queue-box" id="queueBox"></div>
+                    <div>
+                        <button class="btn-run" onclick="runRobot()">Ishga Tushirish 🚀</button>
+                        <button class="btn-reset" onclick="resetRobot()">Tozalash 🗑️</button>
+                    </div>
+                    <div class="sim-status" id="simStatus">Kutilmoqda...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Roadmap -->
+        <div class="slide" id="s4">
+            <h1 class="slide-title">IT Kiber-Yo'lagi (Roadmap)</h1>
+            <p class="slide-subtitle">Dasturiy mahsulot yaratishda turli yo'nalishdagi muhandislar bir jamoa bo'lib ishlaydi. Tugmalarni bosib rolingizni ko'ring:</p>
+
+            <div class="highway-container">
+                <div class="highway-track"></div>
+                <div class="nodes-wrapper">
+                    <div class="h-node" onclick="showRole('frontend')">
+                        <span>🎨</span>
+                        <h4>Frontend</h4>
+                    </div>
+                    <div class="h-node" onclick="showRole('backend')">
+                        <span>⚙️</span>
+                        <h4>Backend</h4>
+                    </div>
+                    <div class="h-node" onclick="showRole('mobile')">
+                        <span>📱</span>
+                        <h4>Mobile</h4>
+                    </div>
+                    <div class="h-node" onclick="showRole('ai')">
+                        <span>🤖</span>
+                        <h4>AI / Data</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node-details-box" id="roleDetails">
+                <h3 style="color: var(--neon-blue); font-size: 1.1rem; margin-bottom: 5px;">Yo'nalishni tanlang</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Yo'lakdagi istalgan tugmani bosing va u haqida to'liq bilib oling.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Quiz Arena -->
+        <div class="slide" id="s5">
+            <h1 class="slide-title">Kiber-Sinov Arenasi</h1>
+            <p class="slide-subtitle">Darsda o'zlashtirgan mantiqiy bilimlaringizni sinab ko'ramiz. (Munozara uchun tayyorlaning)</p>
+
+            <div class="quiz-card" id="quizCard">
+                <div class="quiz-question" id="qTitle">Savol yuklanmoqda...</div>
+                <div class="quiz-options" id="qOptions"></div>
+                <div class="quiz-feedback" id="qFeedback"></div>
+
+                <div class="quiz-nav">
+                    <button class="btn-action" style="font-size: 0.75rem; padding: 6px 12px;" onclick="prevQuestion()" id="btnPrevQ">Oldingi Savol</button>
+                    <button class="btn-action" style="font-size: 0.75rem; padding: 6px 12px;" onclick="nextQuestion()" id="btnNextQ">Keyingi Savol</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Final -->
+        <div class="slide" id="s6">
+            <h1 class="slide-title" style="font-size: 2.5rem;">Kelajak - Sizning Qo'lingizda</h1>
+            <div style="font-size: 4rem; margin: 10px 0; animation: float 3s ease-in-out infinite;">🚀</div>
+            <p class="slide-subtitle" style="font-size: 1.2rem; color: #fff; max-width: 800px;">
+                IT - bu shunchaki kompyuter oldida o'tirish emas. Bu - dunyoni yaxshiroq va qulayroq tomonga o'zgartirish qudratidir.
+            </p>
+            <div style="background: rgba(0,243,255,0.1); border: 1px solid var(--neon-blue); padding: 15px 30px; border-radius: 12px; margin-top: 15px;">
+                <h3 style="color: var(--neon-blue); font-size: 1.3rem;">Akademiyamizdagi Sayohatga Xush Kelibsiz!</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FIXED NAVIGATION FOOTER -->
+    <div class="footer-nav">
+        <button class="btn-action" onclick="changeSlide(-1)">⬅ Orqaga</button>
+        <div class="slide-indicator" id="slideNum">SLAYD 1 / 6</div>
+        <button class="btn-action" onclick="changeSlide(1)">Oldinga ➡</button>
+    </div>
+
+    <script>
+        // SLIDE CONTROLLER
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach((s, idx) => {
+                s.classList.remove('active');
+                if (idx + 1 === currentSlide) {
+                    s.classList.add('active');
+                }
+            });
+            document.getElementById('slideNum').innerText = `SLAYD ${currentSlide} / ${totalSlides}`;
+        }
+
+        function changeSlide(dir) {
+            if (dir === 1 && currentSlide < totalSlides) {
+                currentSlide++;
+            } else if (dir === -1 && currentSlide > 1) {
+                currentSlide--;
+            }
+            updateSlide();
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowRight") changeSlide(1);
+            if (e.key === "ArrowLeft") changeSlide(-1);
+        });
+
+        // SLIDE 3: ROBOT SIMULATOR LOGIC
+        let commandQueue = [];
+
+        function addCmd(cmdText) {
+            if (commandQueue.length < 5) {
+                commandQueue.push(cmdText);
+                renderQueue();
+            }
+        }
+
+        function renderQueue() {
+            const qBox = document.getElementById('queueBox');
+            qBox.innerHTML = '';
+            commandQueue.forEach((item, index) => {
+                qBox.innerHTML += `<div class="queue-item"><span>${index + 1}. ${item}</span></div>`;
+            });
+        }
+
+        function resetRobot() {
+            commandQueue = [];
+            renderQueue();
+            document.getElementById('simStatus').innerText = "Kutilmoqda...";
+            document.getElementById('simStatus').style.color = "var(--text-muted)";
+        }
+
+        function runRobot() {
+            const status = document.getElementById('simStatus');
+            if (commandQueue.length === 0) {
+                status.innerText = "⚠️ Hech qanday buyruq berilmadi!";
+                status.style.color = "var(--neon-pink)";
+                return;
+            }
+
+            if (commandQueue[0].includes("Stuldan turish")) {
+                status.innerText = "✅ Ajoyib! Robot algoritmni to'g'ri boshladi va vazifani bajardi!";
+                status.style.color = "var(--neon-green)";
+                launchConfetti(30);
+            } else {
+                status.innerText = "❌ Xato! Robot stuldan turmasdan yurmoqchi bo'lib yiqildi!";
+                status.style.color = "var(--neon-pink)";
+                flashScreen('red');
+                document.querySelector('.robot-sim-container').classList.add('shake-card');
+                setTimeout(() => document.querySelector('.robot-sim-container').classList.remove('shake-card'), 400);
+            }
+        }
+
+        // SLIDE 4: ROADMAP ROLES
+        const rolesData = {
+            frontend: {
+                title: "🎨 Front-End Muhandisi",
+                desc: "Foydalanuvchi ko'rib turgan barcha tugmalar, ranglar, dizayn va animatsiyalarni yaratadi. Pitsa zakaz qilish dasturidagi chiroyli menyu - bu Front-End natijasidir."
+            },
+            backend: {
+                title: "⚙️ Back-End Muhandisi",
+                desc: "Tizimning ko'rinmas 'Miyasi' va ma'lumotlar bazasi. Parollar xavfsizligi, to'lovlarni amalga oshirish va ma'lumotlarni saqlash - Back-End vazifasidir."
+            },
+            mobile: {
+                title: "📱 Mobile Dasturchi",
+                desc: "Android va iOS smartfonlari uchun qulay, tez ishlaydigan va ixcham ilovalarni yaratish bo'yicha mutaxassis."
+            },
+            ai: {
+                title: "🤖 Sun'iy Intellekt va Data Science",
+                desc: "Kompyuterga mustaqil fikrlashni, rasm va ovozlarni tanishni hamda foydalanuvchining nimasini yoqtirishini bashorat qilishni o'rgatuvchi soha."
+            }
+        };
+
+        function showRole(roleKey) {
+            const box = document.getElementById('roleDetails');
+            const data = rolesData[roleKey];
+            box.innerHTML = `<h3 style="color: var(--neon-blue); font-size: 1.1rem; margin-bottom: 5px;">${data.title}</h3>
+                             <p style="color: #fff; font-size: 0.9rem; line-height: 1.4;">${data.desc}</p>`;
+        }
+
+        // SLIDE 5: QUIZ ARENA
+        const quizList = [
+            {
+                q: "1. Dasturchining eng birinchi va asosiy mas'uliyati nimadan iborat?",
+                opts: [
+                    "A) Qora ekranda kun bo'yi tinmay kod yozish",
+                    "B) Insonlar hayotidagi muammolarga texnik yechim topish",
+                    "C) Kompyuterlarni qismlarga ajratib qayta yig'ish",
+                    "D) Ijtimoiy tarmoqlardagi parollarni buzish",
+                    "E) Faqat chiroyli dizaynlar chizish"
+                ],
+                correct: 1
+            },
+            {
+                q: "2. IT sohasidagi 'Algoritm' tushunchasiga berilgan eng aniq ta'rif qaysi?",
+                opts: [
+                    "A) Internet tezligini oshiruvchi maxsus qurilma",
+                    "B) Maqsadga erishish uchun bajariladigan aniq ko'rsatmalar ketma-ketligi",
+                    "C) Kompyuter viruslarining umumiy nomi",
+                    "D) Dasturlash tilidagi maxfiy belgilardan iborat lug'at",
+                    "E) Faqat matematik tenglamalar yechimi"
+                ],
+                correct: 1
+            },
+            {
+                q: "3. Telegram ilovasidan do'stingizga rasm yuborganingizda, u qayerda saqlanadi?",
+                opts: [
+                    "A) Do'stingizning telefon ekranida (Front-end)",
+                    "B) Internet kabelining ichida",
+                    "C) Markaziy serverlar va ma'lumotlar bazasida (Back-end)",
+                    "D) Sun'iy intellekt xotirasida",
+                    "E) Telefoningiz xotirasidagi keshda"
+                ],
+                correct: 2
+            },
+            {
+                q: "4. Nega kompyuter o'ta tez ishlasa ham 'ahmoq' qurilma hisoblanadi?",
+                opts: [
+                    "A) Chunki u doim xato javob beradi",
+                    "B) Chunki unga aniq qadam-baqadam ko'rsatib berilmasa hech narsa qila olmaydi",
+                    "C) Chunki u elektr energiyasiz ishlay olmaydi",
+                    "D) Chunki u faqat o'yin o'ynash uchun mo'ljallangan",
+                    "E) Chunki u odamlarni tushunmaydi"
+                ],
+                correct: 1
+            },
+            {
+                q: "5. Quyidagilardan qaysi biri axborot texnologiyalari (IT) orqali hal etilgan real hayotiy muammodir?",
+                opts: [
+                    "A) Uydan chiqmasdan dunyo bo'ylab pul o'tkazish (Payme/Click)",
+                    "B) Tirbandliksiz yo'lni xaritalarda oldindan ko'rish (Yandex Navigator)",
+                    "C) Kutubxonaga bormasdan minglab kitoblarni yuklab olish",
+                    "D) Yuqoridagilarning barchasi IT yechimlaridir",
+                    "E) Hech biri IT ga aloqador emas"
+                ],
+                correct: 3
+            }
+        ];
+
+        let quizIndex = 0;
+        let questionAnswered = false;
+
+        function renderQuiz() {
+            const q = quizList[quizIndex];
+            document.getElementById('qTitle').innerText = q.q;
+
+            const optBox = document.getElementById('qOptions');
+            optBox.innerHTML = '';
+            document.getElementById('qFeedback').innerText = '';
+            document.getElementById('qFeedback').style.color = '';
+            document.getElementById('quizCard').classList.remove('correct-card', 'shake-card');
+            questionAnswered = false;
+
+            q.opts.forEach((oText, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'q-opt';
+                btn.innerText = oText;
+                btn.onclick = function () {
+                    selectOption(idx, btn, q);
+                };
+                optBox.appendChild(btn);
+            });
+
+            document.getElementById('btnPrevQ').style.display = quizIndex > 0 ? 'inline-block' : 'none';
+            document.getElementById('btnNextQ').innerText = quizIndex === quizList.length - 1 ? 'Sinovni Tugatish' : 'Keyingi Savol';
+        }
+
+        function selectOption(idx, btnEl, q) {
+            if (questionAnswered) return;
+            questionAnswered = true;
+
+            const allOpts = document.querySelectorAll('#qOptions .q-opt');
+            const feedback = document.getElementById('qFeedback');
+            const quizCard = document.getElementById('quizCard');
+            const rect = btnEl.getBoundingClientRect();
+            const originX = rect.left + rect.width / 2;
+            const originY = rect.top + rect.height / 2;
+
+            if (idx === q.correct) {
+                btnEl.classList.add('correct');
+                feedback.innerText = "✅ Ajoyib! To'g'ri javob!";
+                feedback.style.color = "var(--neon-green)";
+                quizCard.classList.add('correct-card');
+                launchConfetti(45);
+                launchFirework(originX, originY);
+                flashScreen('green');
+            } else {
+                btnEl.classList.add('incorrect');
+                allOpts[q.correct].classList.add('correct');
+                feedback.innerText = "❌ Afsuski, xato! To'g'ri javob yashil rangda ko'rsatildi.";
+                feedback.style.color = "var(--neon-pink)";
+                quizCard.classList.add('shake-card');
+                flashScreen('red');
+                setTimeout(() => quizCard.classList.remove('shake-card'), 400);
+            }
+
+            allOpts.forEach(el => el.style.pointerEvents = 'none');
+        }
+
+        function nextQuestion() {
+            if (quizIndex < quizList.length - 1) {
+                quizIndex++;
+                renderQuiz();
+            } else {
+                changeSlide(1);
+            }
+        }
+
+        function prevQuestion() {
+            if (quizIndex > 0) {
+                quizIndex--;
+                renderQuiz();
+            }
+        }
+
+        // === CELEBRATION EFFECTS ===
+
+        function launchConfetti(count = 40) {
+            const colors = ['#00f3ff', '#b500ff', '#ff007f', '#00ff88', '#ffe600'];
+            for (let i = 0; i < count; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                const size = Math.random() * 8 + 6;
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.width = size + 'px';
+                piece.style.height = size + 'px';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 3600);
+            }
+        }
+
+        function launchFirework(x, y) {
+            const colors = ['#00f3ff', '#b500ff', '#ff007f', '#00ff88', '#ffe600'];
+            const particleCount = 24;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const distance = Math.random() * 90 + 60;
+                const fx = Math.cos(angle) * distance;
+                const fy = Math.sin(angle) * distance;
+                particle.style.setProperty('--fx', fx + 'px');
+                particle.style.setProperty('--fy', fy + 'px');
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 950);
+            }
+        }
+
+        function flashScreen(type) {
+            const flash = document.createElement('div');
+            flash.className = type === 'red' ? 'screen-flash-red' : 'screen-flash-green';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 650);
+        }
+
+        // Init
+        renderQuiz();
+    </script>
+</body>
+</html>
